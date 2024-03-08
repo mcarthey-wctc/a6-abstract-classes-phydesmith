@@ -99,8 +99,7 @@ public class MediaFileContext : IMediaContext
         return mediaList;
     }
 
-    // TODO: Implement the SaveDataToFile method
-    private void SaveDataToFile(List<Media> media)
+    private void SaveDataToFile(List<Media> mediaList)
     {
         // Instructions:
         // 1. Loop through each media item in the 'media' list.
@@ -109,9 +108,47 @@ public class MediaFileContext : IMediaContext
         //    - Note: You'll need to handle the 'Writers', 'Regions', and 'Genres' properties differently because they are arrays. You can join the elements of these arrays into a string with elements separated by a pipe character ('|').
         // 3. Write these strings to the CSV file. Each string should be on a new line.
         // 4. Make sure to include a header line at the top of the file with the names of the properties.
-
+        
         // Your code starts here.
+        foreach (Media media in  mediaList)
+        {
+            switch (media.GetType().Name.ToLower())
+            {
+                case "movie":
+                    Movie movie = (Movie)media;
+                    Write(
+                    $"{movie.GetType().Name},{movie.Id},{movie.Title},,,,,,,{String.Join("|", movie.Genres)}");
+                    break;
+                case "show":
+                    Show show = (Show)media;
+                    Write($"{show.GetType().Name},{show.Id},{show.Title},{show.Season},{show.Episode},{show.Writers},,,,");
+                    break;
+                case "video":
+                    Video video = (Video)media;
+                    Write($"{media.GetType().Name},{media.Id},{media.Title},,,,{video.Format},{video.Length},{String.Join("|", video.Regions)}, ");
+                    break;
+                default:
+                    throw new Exception("Unknown media type");
+            }
+            
+            
+        }
 
         // Your code ends here.
+    }
+    
+    private void Write(String record)
+    {
+        try
+        {
+            using (StreamWriter sw = new StreamWriter(_filePath, false))
+            {
+                sw.WriteLine(record);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.StackTrace);
+        }
     }
 }

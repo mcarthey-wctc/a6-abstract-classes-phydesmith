@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AbstractMedia.Core.Models;
 
 namespace AbstractMedia.Core.Context;
@@ -17,25 +18,22 @@ public class MediaRepository : IMediaRepository
         _context.AddMedia(media);
         _context.SaveChanges();
     }
-
-    // TODO: Implement the FindMedia method
+    
     public Media FindMedia(string type, string title)
     {
         // Instructions:
         // 1. Loop through each media item in the _context.Media list.
-        // 2. For each media item, check if its type matches the 'type' parameter (case-insensitive) and its title matches the 'title' parameter (case-insensitive).
+        // 2. For each media item, check if its type matches the 'type' parameter (case-insensitive)
+        // and its title matches the 'title' parameter (case-insensitive).
         // 3. If a match is found, return the media item.
         // 4. If no match is found after checking all media items, return null.
 
         // Your code starts here.
-
-        foreach (var media in _context.Media)
-        {
-        }
-
-        // Your code ends here.
-
-        return null;
+        return _context.Media.Find(
+            m => m.GetType().Name.ToLower().Equals(type.ToLower()) 
+                 && m.Title.Equals(title)) ?? null;
+        
+        
     }
 
     public IEnumerable<Media> GetAllMedia()
