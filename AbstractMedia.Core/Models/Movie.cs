@@ -1,3 +1,5 @@
+using System;
+
 namespace AbstractMedia.Core.Models;
 
 public class Movie : Media
@@ -15,4 +17,5 @@ public class Movie : Media
     {
         return $"Movie: {Title}, Genres: {string.Join(", ", Genres)}";
     }
+    
 }
