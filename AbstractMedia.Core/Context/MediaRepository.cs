@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AbstractMedia.Core.Models;
 
 namespace AbstractMedia.Core.Context;
@@ -39,5 +40,17 @@ public class MediaRepository : IMediaRepository
     public IEnumerable<Media> GetAllMedia()
     {
         return _context.Media;
+    }
+    
+    public IEnumerable<Media> SearchMedia(string title)
+    {
+        // 1. Open the MediaRepository.cs file.
+        // 2. Implement the SearchMedia method. This method should accept a string parameter named title.
+        // 3. In the SearchMedia method, perform a case-insensitive search on the Media DbSet to find all media items with a title that matches the input title. Use LINQ for this.
+        // 4. The SearchMedia method should return a list of Media objects that match the input title.
+        
+        return _context.Media.FindAll(
+            media =>  media.Title.ToLower().Equals(title.ToLower())).ToList();
+
     }
 }
